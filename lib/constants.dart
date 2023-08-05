@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
-// endpoints==================
-const baseUrl = 'https://www.osamapro.online/api';
+// =============   endpoints   ============
+const baseUrl = 'http://www.osamapro.online/api';
 const loginUrl = '$baseUrl/login';
 const linksUrl = '$baseUrl/links';
+const searchUrl = '$baseUrl/search';
+const followUrl = '$baseUrl/follow';
 
 // ============= STYLE CONSTS ==============
 
@@ -21,3 +23,9 @@ const kLightPrimaryColor = Color(0xffE7E5F1);
 const kLightSecondaryColor = Color(0xffFFE6A6);
 const kLightDangerColor = Color(0xffFEE2E7);
 const kOnLightDangerColor = Color(0xff783341);
+const kOnLightDangerFontColor = Color(0xff9B6A73);
+
+// ============= FONT CONSTS ==============
+
+const profileText =
+    TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 16);
