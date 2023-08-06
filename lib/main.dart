@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
         LoginView.id: (context) => const LoginView(),
         RegisterView.id: (context) => const RegisterView(),
         HomeView.id: (context) => const HomeView(),
-        SearchView.id: (context) => const SearchView(),
+        SearchView.id: (context) => SearchView(),
         NewLinkView.id: (context) => const NewLinkView(),
         UpdateLinkView.id: (context) => UpdateLinkView(
               title: '',

@@ -3,6 +3,7 @@ import 'package:tt9_betweener_challenge/controllers/link_controller.dart';
 import 'package:tt9_betweener_challenge/controllers/search_controller.dart';
 import 'package:tt9_betweener_challenge/controllers/user_controller.dart';
 import 'package:tt9_betweener_challenge/views/new_link_view.dart';
+import 'package:tt9_betweener_challenge/views/widgets/following_card.dart';
 
 import '../constants.dart';
 import '../models/link.dart';
@@ -10,7 +11,6 @@ import '../models/user.dart';
 
 class SearchView extends StatefulWidget {
   static const id = '/searchView';
-  const SearchView({super.key});
 
   @override
   State<SearchView> createState() => _SearchViewState();
@@ -18,14 +18,28 @@ class SearchView extends StatefulWidget {
 
 class _SearchViewState extends State<SearchView> {
   late Future<User> user;
-  late Future<User> user2;
-
-  String get body => 'nesma';
+  late Future<List<UserClass>> searchResult;
+  final TextEditingController searchController =
+      TextEditingController(); // Initialize the TextEditingController
 
   @override
   void initState() {
     user = getLocalUser();
+    searchResult = Future.value([]); // Initialize with an empty list
     super.initState();
+  }
+
+  //trigger search based on user input
+  void performSearch(String query) {
+    setState(() {
+      if (query.isEmpty) {
+        // Show empty list if the search query is empty
+        searchResult = Future.value([]);
+      } else {
+        // Call searchUsers function with the search query
+        searchResult = searchUsers(query);
+      }
+    });
   }
 
   @override
@@ -33,13 +47,65 @@ class _SearchViewState extends State<SearchView> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kLightPrimaryColor,
-        title: const Text(
-          "Search",
+        title: const Text("Search"),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          children: [
+            // Search input field
+            TextFormField(
+              controller: searchController,
+              onChanged: performSearch, // Call search on user input change
+              decoration: InputDecoration(
+                labelText: 'Search users',
+                border: OutlineInputBorder(
+                  borderRadius:
+                      BorderRadius.circular(20), // Set the circular radius
+                ),
+                prefixIcon: Icon(Icons.search), // Add the search icon
+              ),
+            ),
+            // Display search results using ListView.builder
+            Expanded(
+              child: FutureBuilder<List<UserClass>>(
+                future: searchResult,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const SizedBox(
+                      height: 50,
+                      width: 50,
+                      child: spinkit,
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    List<UserClass> users =
+                        snapshot.data ?? []; // Handle null case
+                    if (users.isEmpty) {
+                      return Text('');
+                    }
+
+                    return ListView.builder(
+                      itemCount: users.length,
+                      itemBuilder: (context, index) {
+                        UserClass user = users[index];
+                        // Build the UI for each user in the list
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: FollowingCard(
+                              name: '${user.name ?? 'No Name'}',
+                              email: '${user.email ?? 'No Email'}'),
+                        );
+                      },
+                    );
+                  }
+                },
+              ),
+            ),
+          ],
         ),
       ),
-      // body: const Column(
-      //   children: [],
-      // ),
     );
   }
 }

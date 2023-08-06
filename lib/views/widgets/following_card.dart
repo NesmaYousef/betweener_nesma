@@ -24,7 +24,7 @@ class FollowingCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ListTile(
-            leading: const UserImage(),
+            // leading: const UserImage(),
             title: Text(
               name!,
               style: spacingText,
