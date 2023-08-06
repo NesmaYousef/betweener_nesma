@@ -5,7 +5,7 @@ import 'package:tt9_betweener_challenge/constants.dart';
 import 'package:http/http.dart' as http;
 import '../models/user.dart';
 
-Future<List<User>> getFollowing() async {
+Future<List<UserClass>> getFollowing() async {
   int followingCount = 0;
   final SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -19,7 +19,8 @@ Future<List<User>> getFollowing() async {
   if (response.statusCode == 200) {
     final data = jsonDecode(response.body)['following'] as List<dynamic>;
 
-    List<User> followingList = data.map((e) => User.fromJson(e)).toList();
+    List<UserClass> followingList =
+        data.map((e) => UserClass.fromJson(e)).cast<UserClass>().toList();
     followingCount = followingList.length;
     return followingList;
   }

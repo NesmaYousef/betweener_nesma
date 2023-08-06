@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:tt9_betweener_challenge/controllers/follow_controller.dart';
 import 'package:tt9_betweener_challenge/views/following_view.dart';
 import 'package:tt9_betweener_challenge/views/update_profile.dart';
 import 'package:tt9_betweener_challenge/views/update_view.dart';
@@ -23,6 +24,9 @@ class ProfileView extends StatefulWidget {
 class _ProfileViewState extends State<ProfileView> {
   late Future<User> user;
   late Future<List<Link>> links;
+
+  late Future<List<UserClass>> following;
+  int count = 0;
   String? name;
   String? email;
   late Color color;
@@ -34,10 +38,14 @@ class _ProfileViewState extends State<ProfileView> {
     });
   }
 
+  getFollowingNumber() async {}
+
   @override
   void initState() {
     user = getLocalUser();
     links = getLinks(context);
+    following = getFollowing();
+
     name = '';
     email = '';
     color = kLightDangerColor;
@@ -156,7 +164,26 @@ class _ProfileViewState extends State<ProfileView> {
                                                   color: kSecondaryColor,
                                                   child: Padding(
                                                     padding: EdgeInsets.all(4),
-                                                    child: Text('folowing 100'),
+                                                    child: FutureBuilder(
+                                                      future: following,
+                                                      builder:
+                                                          (context, snapshot) {
+                                                        if (snapshot.hasData) {
+                                                          return Center(
+                                                              child: Text(
+                                                                  'Following ${snapshot.data!.length}'));
+                                                        }
+                                                        if (snapshot.hasError) {
+                                                          return Text(snapshot
+                                                              .error
+                                                              .toString());
+                                                        }
+                                                        return SizedBox(
+                                                          width: 80,
+                                                          height: 20,
+                                                        );
+                                                      },
+                                                    ),
                                                   ),
                                                 ),
                                               ),
