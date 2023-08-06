@@ -19,17 +19,17 @@ Future<Link> updateLink(Map<String, String> body, int id) async {
     headers: {'Authorization': 'Bearer ${user.token}'},
     body: body,
   );
-  print('Request URL: ${Uri.parse('$url/$id')}');
-  print('Request Headers: ${{'Authorization': 'Bearer ${user.token}'}}');
-  print('Request Body: ${jsonEncode(body)}');
-  print('Response Status Code: ${response.statusCode}');
-  print('Response Body: ${response.body}');
+  // print('Request URL: ${Uri.parse('$url/$id')}');
+  // print('Request Headers: ${{'Authorization': 'Bearer ${user.token}'}}');
+  // print('Request Body: ${jsonEncode(body)}');
+  // print('Response Status Code: ${response.statusCode}');
+  // print('Response Body: ${response.body}');
 
   if (response.statusCode == 200) {
     final data = jsonDecode(response.body)['link'];
     return Link.fromJson(data);
   } else {
-    final errorMessage = 'Failed to update link.';
+    const errorMessage = 'Failed to update link.';
     throw Exception(errorMessage);
   }
 }

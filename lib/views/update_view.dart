@@ -41,6 +41,7 @@ class _UpdateLinkViewState extends State<UpdateLinkView> {
         print('update:$linkId');
         // Perform a null check before using linkId
         updateLink(body, linkId).then((user) {
+          setState(() {});
           if (mounted) {
             Navigator.pushNamed(context, MainAppView.id);
           }
@@ -54,6 +55,7 @@ class _UpdateLinkViewState extends State<UpdateLinkView> {
     }
   }
 
+  @override
   void initState() {
     super.initState();
     linkId = widget.linkId;
@@ -66,7 +68,7 @@ class _UpdateLinkViewState extends State<UpdateLinkView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Update Link'),
+        title: const Text('Update Link'),
         backgroundColor: kLightPrimaryColor,
       ),
       body: SingleChildScrollView(

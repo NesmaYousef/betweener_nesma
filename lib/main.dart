@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:tt9_betweener_challenge/views/followers_view.dart';
 import 'package:tt9_betweener_challenge/views/following_view.dart';
 import 'package:tt9_betweener_challenge/views/home_view.dart';
@@ -16,7 +17,11 @@ import 'package:tt9_betweener_challenge/views/update_view.dart';
 import 'constants.dart';
 
 void main() async {
-  runApp(const MyApp());
+  runApp(
+    Phoenix(
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

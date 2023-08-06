@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:tt9_betweener_challenge/models/user.dart';
 import 'package:tt9_betweener_challenge/views/update_profile.dart';
+import 'package:tt9_betweener_challenge/views/widgets/following_card.dart';
+import 'package:tt9_betweener_challenge/views/widgets/user_image.dart';
 import '../constants.dart';
 import '../controllers/follow_controller.dart';
 import '../controllers/user_controller.dart';
@@ -48,35 +50,13 @@ class _FollowingViewState extends State<FollowingView> {
                               email = snapshot.data?[index].email;
 
                               print(name);
-                              return Container(
-                                width: double.infinity,
-                                padding: EdgeInsets.all(12),
-                                decoration: BoxDecoration(
-                                    color: kLightPrimaryColor,
-                                    borderRadius: BorderRadius.circular(15)),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    ListTile(
-                                      leading: CircleAvatar(
-                                        backgroundImage:
-                                            AssetImage('assets/imgs/img.png'),
-                                      ),
-                                      title: Text(
-                                        name!,
-                                        style: TextStyle(
-                                          letterSpacing: 3.0,
-                                          color: kPrimaryColor,
-                                        ),
-                                      ),
-                                      subtitle: Text(email!),
-                                    ),
-                                  ],
-                                ),
-                              );
+                              return GestureDetector(
+                                  onTap: () {},
+                                  child:
+                                      FollowingCard(name: name, email: email));
                             },
                             separatorBuilder: (context, index) {
-                              return SizedBox(
+                              return const SizedBox(
                                 height: 16,
                               );
                             },
@@ -89,45 +69,10 @@ class _FollowingViewState extends State<FollowingView> {
               if (snapshot.hasError) {
                 return Text(snapshot.error.toString());
               }
-              return Center(
-                child: CircularProgressIndicator(),
-              );
+              return spinkit;
             },
           ),
         ),
-        // child: FutureBuilder<List<User>>(
-        //   future: following,
-        //   builder: (context, snapshot) {
-        //     if (snapshot.connectionState == ConnectionState.waiting) {
-        //       return CircularProgressIndicator();
-        //     } else if (snapshot.hasError) {
-        //       return Text('Error: ${snapshot.error}');
-        //     } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-        //       return Text('No following data available.');
-        //     } else {
-        //       List<User> followingList = snapshot.data!;
-        //       return ListView.builder(
-        //         itemCount: followingList.length,
-        //         itemBuilder: (context, index) {
-        //           User user = followingList[index];
-        //           String name = user.user?.name ?? '';
-        //
-        //           print('name------$name');
-        //           String email = user.user?.email ?? '';
-        //           print('name------$email');
-        //
-        //           return ListTile(
-        //             leading: CircleAvatar(
-        //               backgroundImage: AssetImage('assets/imgs/img.png'),
-        //             ),
-        //             title: Text(name),
-        //             subtitle: Text(email),
-        //           );
-        //         },
-        //       );
-        //     }
-        //   },
-        // ),
       ),
     );
   }

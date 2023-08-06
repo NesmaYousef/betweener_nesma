@@ -5,8 +5,10 @@ import 'package:tt9_betweener_challenge/views/search_view.dart';
 import 'package:tt9_betweener_challenge/views/widgets/custom_add_link.dart';
 import 'package:tt9_betweener_challenge/views/widgets/custom_link_card.dart';
 
+import '../constants.dart';
 import '../models/link.dart';
 import '../models/user.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class HomeView extends StatefulWidget {
   static const id = '/homeView';
@@ -107,7 +109,7 @@ class _HomeViewState extends State<HomeView> {
                 if (snapshot.hasError) {
                   return Text(snapshot.error.toString());
                 }
-                return const Center(child: CircularProgressIndicator());
+                return spinkit;
               },
             ),
           ),

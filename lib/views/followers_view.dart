@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:tt9_betweener_challenge/models/user.dart';
 import 'package:tt9_betweener_challenge/views/update_profile.dart';
+import 'package:tt9_betweener_challenge/views/widgets/following_card.dart';
+import 'package:tt9_betweener_challenge/views/widgets/user_image.dart';
 import '../constants.dart';
 import '../controllers/follow_controller.dart';
 import '../controllers/user_controller.dart';
@@ -48,32 +50,7 @@ class _FollowerViewState extends State<FollowerView> {
                               email = snapshot.data?[index].email;
 
                               print(name);
-                              return Container(
-                                width: double.infinity,
-                                padding: EdgeInsets.all(12),
-                                decoration: BoxDecoration(
-                                    color: kLightPrimaryColor,
-                                    borderRadius: BorderRadius.circular(15)),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    ListTile(
-                                      leading: CircleAvatar(
-                                        backgroundImage:
-                                            AssetImage('assets/imgs/img.png'),
-                                      ),
-                                      title: Text(
-                                        name!,
-                                        style: TextStyle(
-                                          letterSpacing: 3.0,
-                                          color: kPrimaryColor,
-                                        ),
-                                      ),
-                                      subtitle: Text(email!),
-                                    ),
-                                  ],
-                                ),
-                              );
+                              return FollowingCard(name: name, email: email);
                             },
                             separatorBuilder: (context, index) {
                               return SizedBox(

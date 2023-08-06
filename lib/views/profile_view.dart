@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:tt9_betweener_challenge/controllers/follow_controller.dart';
 import 'package:tt9_betweener_challenge/views/followers_view.dart';
 import 'package:tt9_betweener_challenge/views/following_view.dart';
 import 'package:tt9_betweener_challenge/views/update_profile.dart';
 import 'package:tt9_betweener_challenge/views/update_view.dart';
+import 'package:tt9_betweener_challenge/views/widgets/user_image.dart';
 
 import '../constants.dart';
 import '../controllers/delete_link_controller.dart';
@@ -41,12 +43,19 @@ class _ProfileViewState extends State<ProfileView> {
     });
   }
 
+  void updateUi() {
+    setState(() {
+      links = getLinks(context);
+      following = getFollowing();
+      followers = getFollowers();
+    });
+  }
+
   @override
   void initState() {
     user = getLocalUser();
-    links = getLinks(context);
-    following = getFollowing();
-    followers = getFollowers();
+
+    updateUi();
 
     name = '';
     email = '';
@@ -77,10 +86,7 @@ class _ProfileViewState extends State<ProfileView> {
                 children: [
                   const Column(
                     children: [
-                      CircleAvatar(
-                        backgroundImage: AssetImage('assets/imgs/img.png'),
-                        radius: 50,
-                      ),
+                      UserImage(),
                     ],
                   ),
                   Expanded(
@@ -205,7 +211,7 @@ class _ProfileViewState extends State<ProfileView> {
                                                               .error
                                                               .toString());
                                                         }
-                                                        return SizedBox(
+                                                        return const SizedBox(
                                                           width: 80,
                                                           height: 20,
                                                         );
@@ -219,7 +225,7 @@ class _ProfileViewState extends State<ProfileView> {
                                         ],
                                       );
                                     }
-                                    return const CircularProgressIndicator();
+                                    return spinkit;
                                   },
                                 ),
                               ],
@@ -262,7 +268,10 @@ class _ProfileViewState extends State<ProfileView> {
                                     SlidableAction(
                                       onPressed: (context) {
                                         linkDelete(linkId!);
-                                        Navigator.pop(context);
+                                        updateUi();
+                                        Phoenix.rebirth(context);
+
+                                        // Navigator.pop(context);
                                       },
                                       borderRadius: BorderRadius.circular(20),
                                       backgroundColor: kDangerColor,
@@ -274,8 +283,6 @@ class _ProfileViewState extends State<ProfileView> {
                                     ),
                                     SlidableAction(
                                       onPressed: (context) {
-                                        print('profile:$linkId');
-
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -333,7 +340,7 @@ class _ProfileViewState extends State<ProfileView> {
                               );
                             },
                             separatorBuilder: (context, index) {
-                              return SizedBox(
+                              return const SizedBox(
                                 height: 16,
                               );
                             },
@@ -346,7 +353,7 @@ class _ProfileViewState extends State<ProfileView> {
               if (snapshot.hasError) {
                 return Text(snapshot.error.toString());
               }
-              return Text('loading');
+              return spinkit;
             },
           ),
         )

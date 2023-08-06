@@ -20,19 +20,17 @@ class CustomAddLink extends StatelessWidget {
           onTap: () {
             Navigator.pushNamed(context, NewLinkView.id);
           },
-          child: const Expanded(
-            child: Column(
-              children: [
-                Icon(
-                  Icons.add,
-                  color: kPrimaryColor,
-                ),
-                Text(
-                  'Add Link',
-                  style: TextStyle(color: kPrimaryColor),
-                ),
-              ],
-            ),
+          child: const Column(
+            children: [
+              Icon(
+                Icons.add,
+                color: kPrimaryColor,
+              ),
+              Text(
+                'Add Link',
+                style: TextStyle(color: kPrimaryColor),
+              ),
+            ],
           ),
         ),
       ),

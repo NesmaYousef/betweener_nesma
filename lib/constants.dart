@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 // =============   endpoints   ============
 const baseUrl = 'http://www.osamapro.online/api';
@@ -29,3 +30,12 @@ const kOnLightDangerFontColor = Color(0xff9B6A73);
 
 const profileText =
     TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 16);
+const spacingText = const TextStyle(
+  letterSpacing: 3.0,
+  color: kPrimaryColor,
+);
+// =============  CONSTS ==============
+const spinkit = SpinKitThreeBounce(
+  color: kPrimaryColor,
+  size: 20.0,
+);
