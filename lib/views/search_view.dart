@@ -25,7 +25,6 @@ class _SearchViewState extends State<SearchView> {
   @override
   void initState() {
     user = getLocalUser();
-    user2 = searchUsers('ahmed') as Future<User>;
     super.initState();
   }
 

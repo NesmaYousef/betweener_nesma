@@ -38,30 +38,37 @@ class _UpdateLinkViewState extends State<UpdateLinkView> {
       int? linkId = widget.linkId; // Access linkId from the constructor
 
       if (linkId != null) {
-        print('update:$linkId');
-        // Perform a null check before using linkId
         updateLink(body, linkId).then((user) {
           setState(() {});
           if (mounted) {
             Navigator.pushNamed(context, MainAppView.id);
           }
         }).catchError((err) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(err.toString()),
-            backgroundColor: Colors.red,
-          ));
+          print(err);
+          // ScaffoldMessenger.of(context).showSnackBar(
+          //   SnackBar(
+          //     content: Text(err.toString()),
+          //     backgroundColor: Colors.red,
+          //   ),
+          // );
         });
       }
     }
+  }
+
+  void updateLinkState() {
+    setState(() {
+      updateTitleController.text = widget.title;
+      updateLinkController.text = widget.link;
+    });
   }
 
   @override
   void initState() {
     super.initState();
     linkId = widget.linkId;
+    updateLinkState();
     print('update:$linkId');
-    updateTitleController.text = widget.title;
-    updateLinkController.text = widget.link;
   }
 
   @override

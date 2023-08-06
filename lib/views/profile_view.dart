@@ -45,6 +45,7 @@ class _ProfileViewState extends State<ProfileView> {
 
   void updateUi() {
     setState(() {
+      user = getLocalUser();
       links = getLinks(context);
       following = getFollowing();
       followers = getFollowers();
@@ -53,8 +54,6 @@ class _ProfileViewState extends State<ProfileView> {
 
   @override
   void initState() {
-    user = getLocalUser();
-
     updateUi();
 
     name = '';
@@ -269,9 +268,7 @@ class _ProfileViewState extends State<ProfileView> {
                                       onPressed: (context) {
                                         linkDelete(linkId!);
                                         updateUi();
-                                        Phoenix.rebirth(context);
-
-                                        // Navigator.pop(context);
+                                        // Phoenix.rebirth(context);
                                       },
                                       borderRadius: BorderRadius.circular(20),
                                       backgroundColor: kDangerColor,
