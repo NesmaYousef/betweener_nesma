@@ -38,7 +38,7 @@ class _FollowingViewState extends State<FollowingView> {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return SizedBox(
-                  height: 400,
+                  height: 800,
                   child: Column(
                     children: [
                       Expanded(

@@ -7,9 +7,8 @@ import 'package:tt9_betweener_challenge/models/user.dart';
 
 import '../models/link.dart';
 
-Future<Link> addFollow(Map<String, String> body) async {
+Future<UserClass> addFollow(Map<String, int> body) async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
-
   User user = userFromJson(prefs.getString('user')!);
 
   final response = await http.post(
@@ -19,9 +18,10 @@ Future<Link> addFollow(Map<String, String> body) async {
   );
 
   if (response.statusCode == 200) {
-    final data = jsonDecode(response.body)['link'];
-    print('following success');
-    return Link.fromJson(data);
+    final data = jsonDecode(response.body);
+    print(data);
+    print('add following success');
+    return UserClass.fromJson(data);
   }
 
   return Future.error('Somthing wrong');

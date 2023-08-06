@@ -6,7 +6,6 @@ import 'package:http/http.dart' as http;
 import '../models/user.dart';
 
 Future<List<UserClass>> getFollowing() async {
-  int followingCount = 0;
   final SharedPreferences prefs = await SharedPreferences.getInstance();
 
   User user = userFromJson(prefs.getString('user')!);
@@ -21,7 +20,6 @@ Future<List<UserClass>> getFollowing() async {
 
     List<UserClass> followingList =
         data.map((e) => UserClass.fromJson(e)).cast<UserClass>().toList();
-    followingCount = followingList.length;
     return followingList;
   }
 
@@ -41,9 +39,9 @@ Future<List<UserClass>> getFollowers() async {
   if (response.statusCode == 200) {
     final data = jsonDecode(response.body)['followers'] as List<dynamic>;
 
-    List<UserClass> followingList =
+    List<UserClass> followerList =
         data.map((e) => UserClass.fromJson(e)).cast<UserClass>().toList();
-    return followingList;
+    return followerList;
   }
 
   return Future.error('Something wrong');

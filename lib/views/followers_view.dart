@@ -67,7 +67,7 @@ class _FollowerViewState extends State<FollowerView> {
                 return Text(snapshot.error.toString());
               }
               return Center(
-                child: CircularProgressIndicator(),
+                child: spinkit,
               );
             },
           ),

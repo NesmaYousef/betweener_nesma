@@ -6,8 +6,10 @@ import 'package:tt9_betweener_challenge/views/new_link_view.dart';
 import 'package:tt9_betweener_challenge/views/widgets/following_card.dart';
 
 import '../constants.dart';
+import '../controllers/add_follow_controller.dart';
 import '../models/link.dart';
 import '../models/user.dart';
+import 'main_app_view.dart';
 
 class SearchView extends StatefulWidget {
   static const id = '/searchView';
@@ -18,13 +20,32 @@ class SearchView extends StatefulWidget {
 
 class _SearchViewState extends State<SearchView> {
   late Future<User> user;
+  late Future<User> local;
+  late int localId;
+
+  late Future<Link> follow;
   late Future<List<UserClass>> searchResult;
   final TextEditingController searchController =
       TextEditingController(); // Initialize the TextEditingController
+  addFollowUser(int id) {
+    final body = {'followee_id': id};
+    addFollow(body).then((user) async {
+      if (mounted) {
+        Navigator.pushNamed(context, MainAppView.id);
+      }
+    }).catchError((err) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(err.toString()),
+        backgroundColor: Colors.red,
+      ));
+    });
+  }
 
   @override
   void initState() {
     user = getLocalUser();
+    local = getLocalUser();
+
     searchResult = Future.value([]); // Initialize with an empty list
     super.initState();
   }
@@ -61,7 +82,7 @@ class _SearchViewState extends State<SearchView> {
                 labelText: 'Search users',
                 border: OutlineInputBorder(
                   borderRadius:
-                      BorderRadius.circular(20), // Set the circular radius
+                      BorderRadius.circular(50), // Set the circular radius
                 ),
                 prefixIcon: Icon(Icons.search), // Add the search icon
               ),
@@ -93,9 +114,29 @@ class _SearchViewState extends State<SearchView> {
                         // Build the UI for each user in the list
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: FollowingCard(
-                              name: '${user.name ?? 'No Name'}',
-                              email: '${user.email ?? 'No Email'}'),
+                          child: Stack(
+                            alignment: Alignment.centerRight,
+                            children: [
+                              FollowingCard(
+                                  name: '${user.name ?? 'No Name'}',
+                                  email: '${user.email ?? 'No Email'}'),
+                              Opacity(
+                                opacity: user == local ? 0 : 1,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        int id = user.id!;
+                                        addFollowUser(id);
+                                      });
+                                    },
+                                    child: Text('Follow'),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
                         );
                       },
                     );
