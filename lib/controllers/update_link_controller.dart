@@ -27,6 +27,7 @@ Future<Link> updateLink(Map<String, String> body, int id) async {
 
   if (response.statusCode == 200) {
     final data = jsonDecode(response.body)['link'];
+    print(data);
     return Link.fromJson(data);
   } else {
     final errorMessage = 'Failed to update link.';

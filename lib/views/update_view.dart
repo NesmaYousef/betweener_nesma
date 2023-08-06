@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:tt9_betweener_challenge/views/profile_view.dart';
 import 'package:tt9_betweener_challenge/views/widgets/custom_text_form_field.dart';
 import 'package:tt9_betweener_challenge/views/widgets/secondary_button_widget.dart';
 
@@ -27,7 +29,7 @@ class _UpdateLinkViewState extends State<UpdateLinkView> {
   TextEditingController updateLinkController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  int? linkId;
+  int? id;
   @override
   void editLink() {
     if (_formKey.currentState!.validate()) {
@@ -35,10 +37,9 @@ class _UpdateLinkViewState extends State<UpdateLinkView> {
         'title': updateTitleController.text,
         'link': updateLinkController.text
       };
-      int? linkId = widget.linkId; // Access linkId from the constructor
 
-      if (linkId != null) {
-        updateLink(body, linkId).then((user) {
+      if (id != null) {
+        updateLink(body, id!).then((user) {
           setState(() {});
           if (mounted) {
             Navigator.pushNamed(context, MainAppView.id);
@@ -53,22 +54,17 @@ class _UpdateLinkViewState extends State<UpdateLinkView> {
           // );
         });
       }
+      Phoenix.rebirth(context);
     }
-  }
-
-  void updateLinkState() {
-    setState(() {
-      updateTitleController.text = widget.title;
-      updateLinkController.text = widget.link;
-    });
   }
 
   @override
   void initState() {
     super.initState();
-    linkId = widget.linkId;
-    updateLinkState();
-    print('update:$linkId');
+    id = widget.linkId;
+    print('update:$id');
+    updateTitleController.text = widget.title;
+    updateLinkController.text = widget.link;
   }
 
   @override
