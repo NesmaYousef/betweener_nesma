@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tt9_betweener_challenge/views/followers_view.dart';
 import 'package:tt9_betweener_challenge/views/following_view.dart';
 import 'package:tt9_betweener_challenge/views/home_view.dart';
 import 'package:tt9_betweener_challenge/views/loading_view.dart';
@@ -51,6 +52,7 @@ class MyApp extends StatelessWidget {
             ),
         MainAppView.id: (context) => const MainAppView(),
         FollowingView.id: (context) => FollowingView(),
+        FollowerView.id: (context) => FollowerView(),
         ProfileView.id: (context) => const ProfileView(),
         UpdateProfileView.id: (context) => UpdateProfileView(
               name: '',

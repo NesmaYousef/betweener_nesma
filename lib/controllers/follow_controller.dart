@@ -27,3 +27,24 @@ Future<List<UserClass>> getFollowing() async {
 
   return Future.error('Something wrong');
 }
+
+Future<List<UserClass>> getFollowers() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  User user = userFromJson(prefs.getString('user')!);
+
+  final response = await http.get(Uri.parse(followUrl),
+      headers: {'Authorization': 'Bearer ${user.token}'});
+
+  print(jsonDecode(response.body)['followers']);
+
+  if (response.statusCode == 200) {
+    final data = jsonDecode(response.body)['followers'] as List<dynamic>;
+
+    List<UserClass> followingList =
+        data.map((e) => UserClass.fromJson(e)).cast<UserClass>().toList();
+    return followingList;
+  }
+
+  return Future.error('Something wrong');
+}

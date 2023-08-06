@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:tt9_betweener_challenge/controllers/follow_controller.dart';
+import 'package:tt9_betweener_challenge/views/followers_view.dart';
 import 'package:tt9_betweener_challenge/views/following_view.dart';
 import 'package:tt9_betweener_challenge/views/update_profile.dart';
 import 'package:tt9_betweener_challenge/views/update_view.dart';
@@ -26,6 +27,8 @@ class _ProfileViewState extends State<ProfileView> {
   late Future<List<Link>> links;
 
   late Future<List<UserClass>> following;
+  late Future<List<UserClass>> followers;
+
   int count = 0;
   String? name;
   String? email;
@@ -34,17 +37,16 @@ class _ProfileViewState extends State<ProfileView> {
 
   linkDelete(int linkId) {
     setState(() {
-      deleteLink(linkId!);
+      deleteLink(linkId);
     });
   }
-
-  getFollowingNumber() async {}
 
   @override
   void initState() {
     user = getLocalUser();
     links = getLinks(context);
     following = getFollowing();
+    followers = getFollowers();
 
     name = '';
     email = '';
@@ -73,9 +75,9 @@ class _ProfileViewState extends State<ProfileView> {
               padding: const EdgeInsets.all(16.0),
               child: Row(
                 children: [
-                  Column(
+                  const Column(
                     children: [
-                      const CircleAvatar(
+                      CircleAvatar(
                         backgroundImage: AssetImage('assets/imgs/img.png'),
                         radius: 50,
                       ),
@@ -92,14 +94,15 @@ class _ProfileViewState extends State<ProfileView> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => UpdateProfileView(
+                                    builder: (context) =>
+                                        const UpdateProfileView(
                                       name: '',
                                       email: '',
                                     ),
                                   ),
                                 );
                               },
-                              child: Icon(
+                              child: const Icon(
                                 Icons.edit,
                                 color: Colors.white,
                               ),
@@ -136,9 +139,8 @@ class _ProfileViewState extends State<ProfileView> {
                                               style: profileText,
                                             ),
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 4.0),
+                                          const Padding(
+                                            padding: EdgeInsets.only(left: 4.0),
                                             child: Text(
                                               '00970000000000',
                                               style: profileText,
@@ -146,12 +148,36 @@ class _ProfileViewState extends State<ProfileView> {
                                           ),
                                           Row(
                                             children: [
-                                              Card(
-                                                color: kSecondaryColor,
-                                                child: Padding(
-                                                  padding: EdgeInsets.all(4),
-                                                  child: Text(
-                                                    'folowers 203',
+                                              GestureDetector(
+                                                onTap: () {
+                                                  Navigator.pushNamed(
+                                                      context, FollowerView.id);
+                                                },
+                                                child: Card(
+                                                  color: kSecondaryColor,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(4),
+                                                    child: FutureBuilder(
+                                                      future: followers,
+                                                      builder:
+                                                          (context, snapshot) {
+                                                        if (snapshot.hasData) {
+                                                          return Center(
+                                                              child: Text(
+                                                                  'Followers ${snapshot.data!.length}'));
+                                                        }
+                                                        if (snapshot.hasError) {
+                                                          return Text(snapshot
+                                                              .error
+                                                              .toString());
+                                                        }
+                                                        return const SizedBox(
+                                                          width: 80,
+                                                          height: 20,
+                                                        );
+                                                      },
+                                                    ),
                                                   ),
                                                 ),
                                               ),
@@ -163,7 +189,8 @@ class _ProfileViewState extends State<ProfileView> {
                                                 child: Card(
                                                   color: kSecondaryColor,
                                                   child: Padding(
-                                                    padding: EdgeInsets.all(4),
+                                                    padding:
+                                                        const EdgeInsets.all(4),
                                                     child: FutureBuilder(
                                                       future: following,
                                                       builder:

@@ -6,19 +6,19 @@ import '../constants.dart';
 import '../controllers/follow_controller.dart';
 import '../controllers/user_controller.dart';
 
-class FollowingView extends StatefulWidget {
-  static const String id = '/followingView';
+class FollowerView extends StatefulWidget {
+  static const String id = '/followersView';
   @override
-  State<FollowingView> createState() => _FollowingViewState();
+  State<FollowerView> createState() => _FollowerViewState();
 }
 
-class _FollowingViewState extends State<FollowingView> {
-  late Future<List<UserClass>> following;
+class _FollowerViewState extends State<FollowerView> {
+  late Future<List<UserClass>> followers;
   String? name = '';
   String? email = '';
   @override
   void initState() {
-    following = getFollowing();
+    followers = getFollowers();
     super.initState();
   }
 
@@ -26,13 +26,13 @@ class _FollowingViewState extends State<FollowingView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Following'),
+        title: Text('Followers'),
       ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12.0),
           child: FutureBuilder(
-            future: following,
+            future: followers,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return SizedBox(
@@ -95,39 +95,6 @@ class _FollowingViewState extends State<FollowingView> {
             },
           ),
         ),
-        // child: FutureBuilder<List<User>>(
-        //   future: following,
-        //   builder: (context, snapshot) {
-        //     if (snapshot.connectionState == ConnectionState.waiting) {
-        //       return CircularProgressIndicator();
-        //     } else if (snapshot.hasError) {
-        //       return Text('Error: ${snapshot.error}');
-        //     } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-        //       return Text('No following data available.');
-        //     } else {
-        //       List<User> followingList = snapshot.data!;
-        //       return ListView.builder(
-        //         itemCount: followingList.length,
-        //         itemBuilder: (context, index) {
-        //           User user = followingList[index];
-        //           String name = user.user?.name ?? '';
-        //
-        //           print('name------$name');
-        //           String email = user.user?.email ?? '';
-        //           print('name------$email');
-        //
-        //           return ListTile(
-        //             leading: CircleAvatar(
-        //               backgroundImage: AssetImage('assets/imgs/img.png'),
-        //             ),
-        //             title: Text(name),
-        //             subtitle: Text(email),
-        //           );
-        //         },
-        //       );
-        //     }
-        //   },
-        // ),
       ),
     );
   }
